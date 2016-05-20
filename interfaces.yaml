@@ -1,0 +1,3 @@
+name: openstack-ha
+summary: Interface for peer relation
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
