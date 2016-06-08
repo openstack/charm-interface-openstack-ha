@@ -15,6 +15,7 @@ from charms.reactive import RelationBase
 from charms.reactive import hook
 from charms.reactive import scopes
 
+
 class OpenstackHAPeers(RelationBase):
     scope = scopes.UNIT
 
