@@ -22,7 +22,7 @@ class OpenstackHAPeers(RelationBase):
     @hook('{peers:openstack-ha}-relation-joined')
     def joined(self):
         conv = self.conversation()
-        conv.set_state('{relation_name}.joined')
+        conv.set_state('{relation_name}.connected')
 
     @hook('{peers:openstack-ha}-relation-changed')
     def changed(self):
