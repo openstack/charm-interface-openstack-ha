@@ -56,3 +56,56 @@ class OpenstackHAPeers(RelationBase):
         if all(data.values()):
             return True
         return False
+
+    def set_address(self, address_type, address):
+        '''Advertise the address of this unit of a particular type
+
+        :param address_type: str Type of address being advertised, e.g.
+                                  internal/public/admin etc
+        :param address: str IP of this unit in 'address_type' network
+
+        @returns None'''
+
+        for conv in self.conversations():
+            conv.set_remote(
+                key='{}-address'.format(address_type),
+                value=address)
+
+    def send_all(self, settings, store_local=False):
+        '''Advertise a setting to peer units
+
+        :param settings: dict Settings to be advertised to peers
+        :param store_local: boolean Whether to store setting in local db
+
+        @returns None'''
+        for conv in self.conversations():
+            conv.set_remote(data=settings)
+            if store_local:
+                conv.set_local(data=settings)
+
+    def retrieve_local(self, key):
+        '''Inspect conversation and look for key in local db
+
+        :param key: str Key to look for in localdb
+        @returns list: List of values of key
+        '''
+        values = []
+        for conv in self.conversations():
+            value = conv.get_local(key)
+            if value:
+                values.append(value)
+        return values
+
+    def retrieve_remote(self, key):
+        '''Inspect conversation and look for key being advertised by peer
+
+        :param key: str Key to look for from peer
+
+        @returns list: List of values of key
+        '''
+        values = []
+        for conv in self.conversations():
+            value = conv.get_remote(key)
+            if value:
+                values.append(value)
+        return values
