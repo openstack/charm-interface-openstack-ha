@@ -35,7 +35,9 @@ class OpenstackHAPeers(RelationBase):
         nodes = []
         for conv in self.conversations():
             host_name = conv.scope.replace('/', '-')
-            nodes.append((host_name, conv.get_remote(address_key)))
+            address = conv.get_remote(address_key)
+            if address:
+                nodes.append((host_name, address))
 
         return nodes
 
